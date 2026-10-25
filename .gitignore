@@ -1,4 +1,4 @@
 .env
 *.class
 target/
-
+src/main/resources/application.yml
