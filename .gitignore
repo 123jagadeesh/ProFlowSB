@@ -1,4 +1,7 @@
 .env
+.env.*
+!.env.example
 *.class
 target/
-src/main/resources/application.yml
+uploads/
+*.log

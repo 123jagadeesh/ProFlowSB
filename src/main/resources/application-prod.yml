@@ -1,0 +1,7 @@
+# Production secrets are supplied by the hosting platform as environment variables.
+# This profile deliberately does not import a local .env file.
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false

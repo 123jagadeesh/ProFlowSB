@@ -1,0 +1,4 @@
+spring:
+  config:
+    # Local convenience only. Production does not activate this profile.
+    import: optional:file:.env[.properties]

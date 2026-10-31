@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import jakarta.annotation.PostConstruct;
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +25,16 @@ public class JwtTokenProvider {
     private SecretKey getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(applicationProperties.getJwt().getSecret());
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    @PostConstruct
+    public void validateSigningKey() {
+        try {
+            getSigningKey();
+        } catch (RuntimeException ex) {
+            throw new IllegalStateException(
+                    "JWT_SECRET must be valid Base64 encoding of at least 32 bytes", ex);
+        }
     }
 
     public String generateToken(User user) {
