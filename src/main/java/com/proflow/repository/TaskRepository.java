@@ -32,6 +32,17 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     boolean existsByProjectIdAndAssigneeIdAndCompanyId(Long projectId, Long userId, Long companyId);
 
+    @Query("SELECT DISTINCT t FROM Task t " +
+            "LEFT JOIN FETCH t.assignee " +
+            "WHERE t.sprint.id = :sprintId " +
+            "AND t.project.id = :projectId " +
+            "AND t.company.id = :companyId")
+    List<Task> findBySprintIdAndProjectIdAndCompanyId(
+            @Param("sprintId") Long sprintId,
+            @Param("projectId") Long projectId,
+            @Param("companyId") Long companyId
+    );
+
     @Modifying
     @Query("UPDATE Task t SET t.sprint = null WHERE t.sprint.id = :sprintId")
     void clearSprintReference(@Param("sprintId") Long sprintId);
